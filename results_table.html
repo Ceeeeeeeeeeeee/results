@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>results</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+    <style>
+        table {
+            width: 100%;
+            table-layout: fixed;
+            margin: 20px auto;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            vertical-align: middle;
+            word-break: break-word;
+        }
+        th { background-color: #f2f2f2; }
+        .preview-trigger:hover { background-color: #f5f5f5; cursor: pointer; }
+        table {
+            table-layout: fixed;  
+            width: 100%;      
+        }
+
+        td, th {
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        th, td {
+            width: auto; 
+        }
+        .highlight-red {
+            background-color: #ffcccc !important;  /* 浅红背景 */
+        }
+        .highlight-green {
+            background-color: #d4edda  !important;  /* 浅绿背景 */
+        }
+        .highlight-nofR {
+            background-color: #7c7c7849 !important;  /* 浅黄背景 */
+        }
+        .highlight-BAO2025{
+            background-color: #8f9ede56 !important;  /* 浅蓝背景 */
+        }
+        .highlight-official{
+            background-color: #e4924556 !important;  /* 浅蓝背景 */
+        }
+        #image-preview {
+            display: none;
+            position: fixed;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            z-index: 9999;
+            gap: 10px;
+            flex-direction: row;
+            align-items: center;
+            pointer-events: none; 
+        }
+        .preview-img-container {
+            text-align: center;
+        }
+        .preview-img-container img {
+            max-width: 600px;
+            max-height: 600px;
+            display: block;
+        }
+        .preview-img-container p {
+            margin: 5px 0 0;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .combined-container {
+            width: 95%;
+            margin: 10px auto;
+            padding: 10px;
+            background: #f0f8ff;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
+        .combined-images {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .combined-img-box {
+            text-align: center;
+        }
+        .combined-img-box img {
+            max-width: 400px;
+            max-height: 400px;
+            border: 1px solid #ddd;
+        }
+        .btn {
+            background-color: #007BFF;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 0 10px;
+        }
+        .btn:hover { background-color: #0056b3; }
+        .note {
+            width: 95%;
+            margin: 10px auto;
+            padding: 10px;
+            background: #f9f9f9;
+            border-left: 4px solid #007BFF;
+            font-size: 14px;
+        }
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow: auto;
+    text-align: center;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #aaa;
+}
+.close:hover {
+    color: black;
+}
+
+.modal-images {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.modal-images div {
+    text-align: center;
+}
+#sys-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;          /* 撑满父级高度才能垂直居中 */
+}
+.modal-images img {
+    max-width: 800px;
+    max-height: 500px;
+    border: 1px solid #ddd;
+}
+#modal-cosm {
+    max-width: 1200px;
+    max-height: 800px;
+}
+#modal-sys {
+    max-width: 400px;
+    max-height: 300px;
+}
+.row-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    border: 2px solid #000000;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    vertical-align: middle;
+    transition: all 0.2s;
+}
+.row-checkbox:checked {
+    background-color: #72aae6d1;
+    position: relative;
+}
+.row-checkbox:checked::after {
+    content: "✓";
+    color: white;
+    font-size: 16px;
+    display: block;
+    text-align: center;
+    line-height: 18px;
+}
+.row-checkbox:hover {
+    border-color: #477fcdc7;
+    transform: scale(1.05);
+}
+    </style>
+</head>
+<body>
+
+<h2 style="text-align:center;">Results</h2>
+<div class="note">
+    💡 <strong>说明：</strong><br>
+    • <strong>鼠标悬浮</strong> → 同时显示宇宙学参数图（左）和系统误差参数图（右）。<br>
+    • <strong>隐藏图片：</strong>但有时候图片很烦人。只需要按住shift，图片就会暂时隐藏；松开shift图片重新出现😁如果图片不出现，可能要刷新一下。按住shift依然可以滚动屏幕<br>
+    • <strong>勾选多行后点击“Show Combined Figure”</strong> → 显示组合后的宇宙学参数图和系统误差参数图。但是只准备了可能有用的。有：ID1,2,3,4,5:\(C^2_5+C^3_5+C^4_5\);<br>
+    • 已经收敛的(\(R-1<0.05\))用✅️表示<br>
+    • 5% cut意思是不满足\(\xi_{\pm,full}^{ij}-\xi_{\pm,k<0.5}^{ij}<5\% \sigma_{\pm}^{ij}\)的被scale cut；drop NGC bad bin pairs意思是\(\xi_{+}\)的(1,1)(2,4)(4,4)不要<br>
+    • 不同组burn in都不一样；同一组内，显示图的burn in与表格数值的burn in也可能不一样；大部分情况下，如果没有备注，对于已经收敛的，画图burn in=0.5, 表格burn in=0.3<br>
+</div>
+
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-images">
+            <div>
+                <p>🌌 宇宙学参数组合图</p>
+                <img id="modal-cosm" src="" alt="宇宙学组合图">
+            </div>
+            <div id="sys-container">
+                <p>⚙️ 系统误差参数组合图</p>
+                <img id="modal-sys" src="" alt="系统误差组合图">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<table id="result-table">
+    <colgroup>
+        <col style="width: 80px;">   <!-- 选择 -->
+        <col style="width: 50px;">   <!-- ID -->
+        <col style="width: 120px;">  <!-- Strategy -->
+        <col style="width: 140px;">  <!-- Run -->
+        <col style="width: 100px;">   <!-- 备注 -->
+        <col style="width: 70px;">   <!-- R-1 -->
+        <col style="width: 80px;">   <!-- Ω_m -->
+        <col style="width: 80px;">   <!-- S_8 -->
+        <col style="width: 80px;">   <!-- σ_8 -->
+        <col style="width: 90px;">  <!-- log|fR0|68% -->
+        <col style="width: 90px;">  <!-- log|fR0|95% -->
+        <col style="width: 70px;">   <!-- N_data -->
+        <col style="width: 70px;">   <!-- N_dof -->
+        <col style="width: 80px;">   <!-- χ²/N_dof -->
+        <col style="width: 70px;">   <!-- p -->
+        <col style="width: 90px;">   <!-- FoM -->
+    </colgroup>
+    <thead>
+        <tr>
+            <th class="checkbox-col">click 👇🏻</th>
+            <th class="id-col">ID</th>
+            <th>Strategy</th>
+            <th>Run</th>
+            <th>备注</th>
+            <th>R-1</th>
+            <th>\(\Omega_m\)</th>
+            <th>\(S_8\)</th>
+            <th>\(\sigma_8\)</th>
+            <th>\(\log|f_{R0}|_{68\%}\)</th>
+            <th>\(\log|f_{R0}|_{95\%}\)</th>
+            <th>\(N_{\mathrm{data}}\)</th>
+            <th>\(N_{\mathrm{dof}}\)</th>
+            <th>\(\chi^2/N_\mathrm{dof}\)</th>
+            <th>\(p\)</th>
+            <th>\(\mathrm{FoM}_{S_8\Omega_m}\)</th>
+        </tr>
+    </thead>
+
+        <!-- ======================== 第1组 ======================== -->
+        <tr data-id="1">
+            <td><input type="checkbox" class="row-checkbox" value="1"></td>
+            <td>1</td>
+            <td rowspan="9">5% cut ➕<br>fixed BCM</td>
+            <td class="preview-trigger run-name">DES</td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger">✅️</td>
+            <td class="preview-trigger">\(0.254_{-0.059}^{+0.034}\)</td>
+            <td class="preview-trigger">\(0.923_{-0.147}^{+0.147}\)</td>
+            <td class="preview-trigger">\(1.025_{-0.245}^{+0.205}\)</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">136</td>
+            <td class="preview-trigger">131</td>
+            <td class="preview-trigger">0.945</td>
+            <td class="preview-trigger">0.660</td>
+            <td class="preview-trigger">24.503</td>
+        </tr>
+        <tr data-id="2">
+            <td><input type="checkbox" class="row-checkbox" value="2"></td>
+            <td>2</td>
+            <td class="preview-trigger run-name">NGC</td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger">✅️</td>
+            <td class="preview-trigger">\(0.248_{-0.051}^{+0.030}\)</td>
+            <td class="preview-trigger">\(0.995_{-0.133}^{+0.131}\)</td>
+            <td class="preview-trigger">\(1.111_{-0.209}^{+0.206}\)</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">151</td>
+            <td class="preview-trigger">146</td>
+            <td class="preview-trigger">1.198</td>
+            <td class="preview-trigger">0.052</td>
+            <td class="preview-trigger">29.600</td>
+        </tr>
+        <tr data-id="20">
+            <td><input type="checkbox" class="row-checkbox" value="20"></td>
+            <td>20</td>
+            <td class="preview-trigger run-name highlight-nofR">NGC no fR</td>
+            <td class="preview-trigger highlight-nofR">$$\log f_{R0}=-7$$</td>
+            <td class="preview-trigger highlight-nofR">✅️</td>
+            <td class="preview-trigger highlight-nofR">$$0.258^{+0.032}_{-0.054}$$</td>
+            <td class="preview-trigger highlight-nofR">$$0.941^{+0.123}_{-0.123}$$</td>
+            <td class="preview-trigger highlight-nofR">$$1.029^{+0.195}_{-0.173}$$</td>
+            <td class="preview-trigger highlight-nofR">—</td>
+            <td class="preview-trigger highlight-nofR">—</td>
+            <td class="preview-trigger highlight-nofR">151</td>
+            <td class="preview-trigger highlight-nofR">146</td>
+            <td class="preview-trigger highlight-nofR"></td>
+            <td class="preview-trigger highlight-nofR"></td>
+            <td class="preview-trigger highlight-nofR"></td>
+        </tr>
+        <tr data-id="3">
+            <td><input type="checkbox" class="row-checkbox" value="3"></td>
+            <td>3</td>
+            <td class="preview-trigger run-name">SGC</td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger">✅️</td>
+            <td class="preview-trigger">\(0.331_{-0.085}^{+0.056}\)</td>
+            <td class="preview-trigger">\(0.804_{-0.167}^{+0.115}\)</td>
+            <td class="preview-trigger">\(0.787_{-0.253}^{+0.146}\)</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">164</td>
+            <td class="preview-trigger">159</td>
+            <td class="preview-trigger">1.127</td>
+            <td class="preview-trigger">0.131</td>
+            <td class="preview-trigger">18.532</td>
+        </tr>
+               <!-- ======================== 第4组（不完整数据） ======================== -->
+               <tr data-id="19">
+                <td><input type="checkbox" class="row-checkbox" value="19"></td>
+                <td>19</td>
+                <td class="preview-trigger run-name highlight-nofR">SGC no fR</td>
+                <td class="preview-trigger highlight-nofR">$$\log f_{R0}=-7$$</td>
+                <td class="preview-trigger highlight-nofR">✅️</td>
+                <td class="preview-trigger highlight-nofR">$$0.330^{+0.064}_{-0.088}$$</td>
+                <td class="preview-trigger highlight-nofR">$$0.772^{+0.105}_{-0.177}$$</td>
+                <td class="preview-trigger highlight-nofR">$$0.761^{+0.132}_{-0.263}$$</td>
+                <td class="preview-trigger highlight-nofR">—</td>
+                <td class="preview-trigger highlight-nofR">—</td>
+                <td class="preview-trigger highlight-nofR">164</td>
+                <td class="preview-trigger highlight-nofR">159</td>
+                <td class="preview-trigger highlight-nofR"></td>
+                <td class="preview-trigger highlight-nofR"></td>
+                <td class="preview-trigger highlight-nofR"></td>
+            </tr>
+    
+        <tr data-id="4">
+            <td><input type="checkbox" class="row-checkbox" value="4"></td>
+            <td>4</td>
+            <td class="preview-trigger run-name">DECADE</td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger">0.225</td>
+            <td class="preview-trigger">\(0.238_{-0.042}^{+0.029}\)</td>
+            <td class="preview-trigger">\(1.004_{-0.126}^{+0.141}\)</td>
+            <td class="preview-trigger">\(1.143_{-0.215}^{+0.208}\)</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">315</td>
+            <td class="preview-trigger">305</td>
+            <td class="preview-trigger">1.169</td>
+            <td class="preview-trigger">0.022</td>
+            <td class="preview-trigger">33.756</td>
+        </tr>
+        <tr data-id="5">
+            <td><input type="checkbox" class="row-checkbox" value="5"></td>
+            <td>5</td>
+            <td class="preview-trigger run-name">DECADE 13k</td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger">0.076</td>
+            <td class="preview-trigger">\(0.223_{-0.038}^{+0.025}\)</td>
+            <td class="preview-trigger">\(1.009_{-0.118}^{+0.142}\)</td>
+            <td class="preview-trigger">\(1.184_{-0.195}^{+0.213}\)</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">451</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">1.108</td>
+            <td class="preview-trigger">0.058</td>
+            <td class="preview-trigger">39.677</td>
+        </tr>
+        <tr data-id="6">
+            <td><input type="checkbox" class="row-checkbox" value="6"></td>
+            <td>6</td>
+            <td class="preview-trigger run-name">DESkid +Ext</td>
+            <td class="preview-trigger">其实没cut，不画了</td>
+            <td class="preview-trigger">0.209</td>
+            <td class="preview-trigger">\(0.304_{-0.004}^{+0.005}\)</td>
+            <td class="preview-trigger">\(0.862_{-0.053}^{+0.046}\)</td>
+            <td class="preview-trigger">\(0.856_{-0.053}^{+0.043}\)</td>
+            <td class="preview-trigger">-4.6752</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">? (原表无)</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">0.893</td>
+            <td class="preview-trigger">1</td>
+            <td class="preview-trigger">798.934</td>
+        </tr>
+        <tr data-id="7">
+            <td><input type="checkbox" class="row-checkbox" value="7"></td>
+            <td>7</td>
+            <td class="preview-trigger run-name">DECADE 13k + Ext</td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger">0.105</td>
+            <td class="preview-trigger">\(0.303_{-0.006}^{+0.006}\)</td>
+            <td class="preview-trigger">\(0.833_{-0.026}^{+0.013}\)</td>
+            <td class="preview-trigger">\(0.829_{-0.027}^{+0.011}\)</td>
+            <td class="preview-trigger">-5.5014</td>
+            <td class="preview-trigger">-4.7050</td>
+            <td class="preview-trigger">12526</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">1.031</td>
+            <td class="preview-trigger">0.0075</td>
+            <td class="preview-trigger">1243.530</td>
+        </tr>
+
+        <!-- ======================== 第2组 ======================== -->
+        <tr data-id="8">
+            <td><input type="checkbox" class="row-checkbox" value="8"></td>
+            <td>8</td>
+            <td rowspan="3">5% cut <br>➕ separate BCM</td>
+            <td class="preview-trigger run-name">DECADE</td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger">0.126</td>
+            <td class="preview-trigger">\(0.243_{-0.046}^{+0.025}\)</td>
+            <td class="preview-trigger">\(1.019_{-0.123}^{+0.144}\)</td>
+            <td class="preview-trigger">\(1.146_{-0.184}^{+0.213}\)</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">315</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">1.164</td>
+            <td class="preview-trigger">0.025</td>
+            <td class="preview-trigger">31.618</td>
+        </tr>
+        <tr data-id="9">
+            <td><input type="checkbox" class="row-checkbox" value="9"></td>
+            <td>9</td>
+            <td class="preview-trigger run-name">DECADE 13k</td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger">0.226</td>
+            <td class="preview-trigger">\(0.227_{-0.041}^{+0.024}\)</td>
+            <td class="preview-trigger">\(1.010_{-0.120}^{+0.148}\)</td>
+            <td class="preview-trigger">\(1.177_{-0.190}^{+0.226}\)</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">451</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">1.105</td>
+            <td class="preview-trigger">0.064</td>
+            <td class="preview-trigger">35.588</td>
+        </tr>
+        <tr data-id="25">
+            <td><input type="checkbox" class="row-checkbox" value="25"></td>
+            <td>25</td>
+            <td class="preview-trigger run-name">DECADE 13k ➕ Ext</td>
+            <td class="preview-trigger">new start....</td>
+            <td class="preview-trigger">running</td>
+            <td class="preview-trigger">\(0.227_{-0.041}^{+0.024}\)</td>
+            <td class="preview-trigger">\(1.010_{-0.120}^{+0.148}\)</td>
+            <td class="preview-trigger">\(1.177_{-0.190}^{+0.226}\)</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">451</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">1.105</td>
+            <td class="preview-trigger">0.064</td>
+            <td class="preview-trigger">35.588</td>
+        </tr>
+    </tr>
+
+
+        <!-- ======================== 第5组 ======================== -->
+        <tr data-id="14">
+            <td><input type="checkbox" class="row-checkbox" value="14"></td>
+            <td>14</td>
+            <td class="highlight-red" rowspan="2">5% Cut <br>➕ drop NGC bad bin pairs<br>➕ fixed BCM</td>
+            <td class="preview-trigger run-name">NGC</td>
+            <td class="highlight-red" rowspan="2">删错了一个pair，而且不小心把ξ_-的三对也删了</td>
+            <td class="preview-trigger">✅️</td>
+            <td class="preview-trigger">\(0.217_{-0.036}^{+0.022}\)</td>
+            <td class="preview-trigger">\(1.059_{-0.095}^{+0.120}\)</td>
+            <td class="preview-trigger">\(1.256_{-0.145}^{+0.195}\)</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">143</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">2.204</td>
+            <td class="preview-trigger">1.6e-14</td>
+            <td class="preview-trigger">48.201</td>
+        </tr>
+        <tr data-id="15">
+            <td><input type="checkbox" class="row-checkbox" value="15"></td>
+            <td>15</td>
+            <td class="preview-trigger run-name">DECADE 13k + Ext</td>
+            <td class="preview-trigger">0.056</td>
+            <td class="preview-trigger">\(0.302_{-0.006}^{+0.006}\)</td>
+            <td class="preview-trigger">\(0.826_{-0.022}^{+0.011}\)</td>
+            <td class="preview-trigger">\(0.824_{-0.023}^{+0.009}\)</td>
+            <td class="preview-trigger">-5.638</td>
+            <td class="preview-trigger">-4.891</td>
+            <td class="preview-trigger">12518</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">1.042</td>
+            <td class="preview-trigger">0.0005</td>
+            <td class="preview-trigger">1534.765</td>
+        </tr>
+        <tr data-id="21">
+            <td><input type="checkbox" class="row-checkbox" value="21"></td>
+            <td>21</td>
+            <td rowspan="2"class="highlight-green">5%cut <br>➕✅️drop NGC 3pairs <br>➕ fixed BCM</td>
+            <td class="preview-trigger run-name">DECADE 13k + Ext</td>
+            <td class="preview-trigger">把15弄错的修正了</td>
+            <td class="preview-trigger">running</td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger"> </td>
+            <td class="preview-trigger">12492</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">—</td>
+        </tr>
+    <tr data-id="28">
+        <td><input type="checkbox" class="row-checkbox" value="28"></td>
+        <td>28</td>
+        <td class="preview-trigger run-name highlight-BAO2025">DECADE 13k + Ext</td>
+        <td class="preview-trigger highlight-BAO2025">BAO 2025</td>
+        <td class="preview-trigger">running</td>
+        <td class="preview-trigger"></td>
+        <td class="preview-trigger">—</td>
+        <td class="preview-trigger">—</td>
+        <td class="preview-trigger">—</td>
+        <td class="preview-trigger"> </td>
+        <td class="preview-trigger">12492</td>
+        <td class="preview-trigger">—</td>
+        <td class="preview-trigger">—</td>
+        <td class="preview-trigger">—</td>
+        <td class="preview-trigger">—</td>
+    </tr>
+        <!-- ======================== 第6组 ======================== -->
+        <tr data-id="16">
+            <td><input type="checkbox" class="row-checkbox" value="16"></td>
+            <td>16</td>
+            <td rowspan="2" class="highlight-green">5%cut <br>➕✅️drop NGC 3pairs <br>➕ separate BCM</td>
+            <td class="preview-trigger run-name">DECADE 13k + Ext</td>
+            <td class="preview-trigger">错误修正了。$$\log|f_{R0}|$$是取了不同burn in之后得到的最小的(burn in=0.6)</td>
+            <td class="preview-trigger">✅️</td>
+            <td class="preview-trigger">$$0.303^{+0.006}_{-0.005}$$</td>
+            <td class="preview-trigger">\(0.830^{+0.013}_{-0.023}\)</td>
+            <td class="preview-trigger">$$0.826^{+0.011}_{-0.024}$$</td>
+            <td class="preview-trigger">$$-5.533$$</td>
+            <td class="preview-trigger">$$-4.859$$</td>
+            <td class="preview-trigger">12492</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">—</td>
+        </tr>
+        <tr data-id="27">
+            <td><input type="checkbox" class="row-checkbox" value="27"></td>
+            <td>27</td>
+            <td class="preview-trigger run-name highlight-nofR">DECADE 13k ➕ Ext (no fR)</td>
+            <td class="preview-trigger highlight-nofR">$$\log|f_{R0}|=-7$$</td>
+            <td class="preview-trigger highlight-nofR">✅️</td>
+            <td class="preview-trigger highlight-nofR"></td>
+            <td class="preview-trigger highlight-nofR"></td>
+            <td class="preview-trigger highlight-nofR"></td>
+            <td class="preview-trigger highlight-nofR"></td>
+            <td class="preview-trigger highlight-nofR"></td>
+            <td class="preview-trigger highlight-nofR"></td>
+            <td class="preview-trigger highlight-nofR"></td>
+            <td class="preview-trigger highlight-nofR"></td>
+            <td class="preview-trigger highlight-nofR"></td>
+            <td class="preview-trigger highlight-nofR"></td>
+        </tr>
+        <tr data-id="29">
+            <td><input type="checkbox" class="row-checkbox" value="29"></td>
+            <td>29</td>
+            <td class="highlight-official">official cut <br>➕✅️drop NGC 3pairs <br>➕ separate BCM</td>
+            <td class="preview-trigger run-name highlight-official">DECADE 13k ➕ Ext</td>
+            <td class="preview-trigger">没有错误</td>
+            <td class="preview-trigger">0.127 June9<br>(runnning)</td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+        </tr>
+        <!-- ======================== 第3组 ======================== -->
+        <tr data-id="10">
+            <td><input type="checkbox" class="row-checkbox" value="10"></td>
+            <td>10</td>
+            <td rowspan="4">no cut<br>➕ separate BCM <br>（每组第一个点被误删了，但影响不大）</td>
+            <td class="preview-trigger run-name">DES</td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger">0.164</td>
+            <td class="preview-trigger">\(0.314_{-0.069}^{+0.046}\)</td>
+            <td class="preview-trigger">\(0.857_{-0.164}^{+0.115}\)</td>
+            <td class="preview-trigger">\(0.856_{-0.233}^{+0.157}\)</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">380</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">0.596</td>
+            <td class="preview-trigger">1</td>
+            <td class="preview-trigger">19.069</td>
+        </tr>
+        <tr data-id="11">
+            <td><input type="checkbox" class="row-checkbox" value="11"></td>
+            <td>11</td>
+            <td class="preview-trigger run-name">DECADE 13k</td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger">0.15</td>
+            <td class="preview-trigger">\(0.214_{-0.035}^{+0.023}\)</td>
+            <td class="preview-trigger">\(1.049_{-0.098}^{+0.125}\)</td>
+            <td class="preview-trigger">\(1.254_{-0.164}^{+0.205}\)</td>
+            <td class="preview-trigger highlight-red">>-3.902</td>
+            <td class="preview-trigger highlight-red">>-6.012</td>
+            <td class="preview-trigger">1140</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">1.110</td>
+            <td class="preview-trigger">0.0056</td>
+            <td class="preview-trigger">47.668</td>
+        </tr>
+        <tr data-id="12">
+            <td><input type="checkbox" class="row-checkbox" value="12"></td>
+            <td>12</td>
+            <td class="preview-trigger run-name">DES + Ext</td>
+            <td class="preview-trigger">DES: 400 data points</td>
+            <td class="preview-trigger">✅️</td>
+            <td class="preview-trigger">\(0.305_{-0.006}^{+0.006}\)</td>
+            <td class="preview-trigger">\(0.843_{-0.033}^{+0.015}\)</td>
+            <td class="preview-trigger">\(0.836_{-0.034}^{+0.012}\)</td>
+            <td class="preview-trigger highlight-green">-5.340</td>
+            <td class="preview-trigger highlight-green">-4.371</td>
+            <td class="preview-trigger">12455</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">1.014</td>
+            <td class="preview-trigger">0.136</td>
+            <td class="preview-trigger">926.411</td>
+        </tr>
+        <tr data-id="13">
+            <td><input type="checkbox" class="row-checkbox" value="13"></td>
+            <td>13</td>
+            <td class="preview-trigger run-name">DECADE 13k +Ext</td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger">0.07</td>
+            <td class="preview-trigger">\(0.307_{-0.005}^{+0.006}\)</td>
+            <td class="preview-trigger">\(0.840_{-0.022}^{+0.014}\)</td>
+            <td class="preview-trigger">\(0.831_{-0.024}^{+0.012}\)</td>
+            <td class="preview-trigger highlight-green">-5.235</td>
+            <td class="preview-trigger highlight-green">-4.808</td>
+            <td class="preview-trigger">13215</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">1.036</td>
+            <td class="preview-trigger">0.0021</td>
+            <td class="preview-trigger">1394.121</td>
+        </tr>
+
+         <!-- ======================== 第7组 ======================== -->
+         <tr data-id="17">
+            <td><input type="checkbox" class="row-checkbox" value="17"></td>
+            <td>17</td>
+            <td rowspan="3">no cut<br>➕ separate BCM<br>➕ Drop NGC 3 bin pairs</td>
+            <td class="preview-trigger run-name highlight-red">DECADE 13k + Ext</td>
+            <td class="preview-trigger highlight-red">NGC不小心被5% cut了,而且drop也错了</td>
+            <td class="preview-trigger">0.08</td>
+            <td class="preview-trigger">\(0.306_{-0.006}^{+0.006}\)</td>
+            <td class="preview-trigger">\(0.838_{-0.022}^{+0.014}\)</td>
+            <td class="preview-trigger">\(0.830_{-0.025}^{+0.012}\)</td>
+            <td class="preview-trigger">-5.221</td>
+            <td class="preview-trigger">-4.800</td>
+            <td class="preview-trigger">12978</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">1.042</td>
+            <td class="preview-trigger">0.0004</td>
+            <td class="preview-trigger">1363.674</td>
+        </tr>
+        <tr data-id="18">
+            <td><input type="checkbox" class="row-checkbox" value="18"></td>
+            <td>18</td>
+            <td class="preview-trigger run-name highlight-green">decade 13k + Ext</td>
+            <td class="preview-trigger highlight-green">修正了17的错误</td>
+            <td class="preview-trigger">new start...running</td>
+            <td class="preview-trigger">\(0.307_{-0.007}^{+0.007}\)</td>
+            <td class="preview-trigger">\(0.876_{-0.062}^{+0.065}\)</td>
+            <td class="preview-trigger">\(0.866_{-0.063}^{+0.072}\)</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">? (原表无)</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">1.027</td>
+            <td class="preview-trigger">0.019</td>
+            <td class="preview-trigger">467.910</td>
+        </tr>
+        <tr data-id="26">
+            <td><input type="checkbox" class="row-checkbox" value="26"></td>
+            <td>26</td>
+            <td class="preview-trigger run-name highlight-BAO2025">decade 13k + Ext</td>
+            <td class="preview-trigger highlight-green highlight-BAO2025">bao 2025且没有错误</td>
+            <td class="preview-trigger">new start... running</td>
+            <td class="preview-trigger">\(0.307_{-0.007}^{+0.007}\)</td>
+            <td class="preview-trigger">\(0.876_{-0.062}^{+0.065}\)</td>
+            <td class="preview-trigger">\(0.866_{-0.063}^{+0.072}\)</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">? (原表无)</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">1.027</td>
+            <td class="preview-trigger">0.019</td>
+            <td class="preview-trigger">467.910</td>
+        </tr>
+        
+
+
+        <tr data-id="24">
+            <td><input type="checkbox" class="row-checkbox" value="24"></td>
+            <td>24</td>
+            <td rowspan="3"> </td>
+            <td class="preview-trigger run-name">Ext</td>
+            <td class="preview-trigger">  bao.desi_2024_bao_all➕sn.pantheonplus<br>➕Planck_2018_lowl.TT➕planck_2018_lowl.EE<br>
+                ➕planck_NPIPE_highl_CamSpec.TTTEEE➕planckpr4lensing
+            <td class="preview-trigger">✅️</td>
+            <td class="preview-trigger">\(0.307_{-0.007}^{+0.007}\)</td>
+            <td class="preview-trigger">\(0.876_{-0.062}^{+0.065}\)</td>
+            <td class="preview-trigger">\(0.866_{-0.063}^{+0.072}\)</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">❌️</td>
+            <td class="preview-trigger">? (原表无)</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">1.027</td>
+            <td class="preview-trigger">0.019</td>
+            <td class="preview-trigger">467.910</td>
+        </tr>
+        <tr data-id="30">
+            <td><input type="checkbox" class="row-checkbox" value="30"></td>
+            <td>30</td>
+            <td class="preview-trigger run-name">CMB</td>
+            <td class="preview-trigger">只用了CMB</td>
+            <td class="preview-trigger">✅️</td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger">? (原表无)</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">1.027</td>
+            <td class="preview-trigger">0.019</td>
+            <td class="preview-trigger">467.910</td>
+        </tr>
+        <tr data-id="31">
+            <td><input type="checkbox" class="row-checkbox" value="31"></td>
+            <td>31</td>
+            <td class="preview-trigger run-name">BAO + SNe</td>
+            <td class="preview-trigger">没有CMB</td>
+            <td class="preview-trigger">✅️</td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger">? (原表无)</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">1.027</td>
+            <td class="preview-trigger">0.019</td>
+            <td class="preview-trigger">467.910</td>
+        </tr>
+       
+ 
+        <!-- ======================== 第4组（不完整数据） ======================== -->
+        <tr data-id="22">
+            <td><input type="checkbox" class="row-checkbox" value="22"></td>
+            <td>22</td>
+            <td rowspan="2">official cut <br>➕fixed BCM <br>➕ $$\log|f_{R0}|=-7$$</td>
+            <td class="preview-trigger run-name">sgc</td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger">running</td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">—</td>
+            <td class="preview-trigger">—</td>
+        </tr>
+        <tr data-id="23">
+            <td><input type="checkbox" class="row-checkbox" value="23"></td>
+            <td>23</td>
+            <td class="preview-trigger run-name">ngc</td>
+            <td class="preview-trigger">running</td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+            <td class="preview-trigger"></td>
+        </tr>
+
+    </tbody>
+</table>
+
+<div style="text-align:center; margin-top:10px;">
+    <button id="show-combined-btn" class="btn">📸 Show Clicked Combination</button>
+    <button id="clear-checkboxes-btn" class="btn" style="background-color:#6c757d;">🗑️ Clear</button>
+</div>
+
+
+<div id="image-preview" style="display: none; flex-direction: row;">
+    <div class="preview-img-container">
+        <p>🌌 宇宙学参数</p>
+        <img id="preview-cosm" src="" alt="宇宙学图">
+    </div>
+    <div class="preview-img-container">
+        <p>⚙️ 系统误差参数</p>
+        <img id="preview-sys" src="" alt="系统误差图">
+    </div>
+</div>
+
+<script>
+
+        let shiftPressed = false;
+// 按住 Shift 时，强制垂直滚动（而不是水平滚动）
+window.addEventListener('wheel', function(e) {
+    if (e.shiftKey) {
+        // 阻止浏览器默认的水平滚动
+        e.preventDefault();
+        window.scrollBy(0, e.deltaY);
+    }
+}, { passive: false }); 
+window.addEventListener('keydown', (e) => {
+    if (e.shiftKey) {
+        if (!shiftPressed) {
+            shiftPressed = true;
+            if (previewDiv.style.display === 'flex') {
+                hidePreviewImmediately();
+            }
+        }
+    }
+});
+
+window.addEventListener('keyup', (e) => {
+    if (!e.shiftKey && shiftPressed) {
+        shiftPressed = false;
+        if (activeRow) {
+            const lastMouseEvent = window._lastMouseEvent;
+            if (lastMouseEvent) {
+                showPreviewForRow(activeRow, lastMouseEvent);
+            } else {
+                const rect = activeRow.getBoundingClientRect();
+                const fakeEvent = { clientX: rect.left + rect.width/2, clientY: rect.top + rect.height/2 };
+                showPreviewForRow(activeRow, fakeEvent);
+            }
+        }
+    }
+});
+
+document.addEventListener('mousemove', (e) => {
+    window._lastMouseEvent = e;
+});
+    let hideTimeout = null;
+    function getCosmImagePath(id) {
+        return `figures/cosm${id}.png`;
+    }
+    function getSysImagePath(id) {
+        return `figures/sys${id}.png`;
+    }
+    function getCombinedCosmPath(ids) {
+        if (!ids.length) return null;
+        ids.sort((a,b) => a - b);
+        return `figures/cosm_${ids.join("_")}.png`;
+    }
+    function getCombinedSysPath(ids) {
+    return `figures/sys_default.png`;
+}
+
+
+    const previewDiv = document.getElementById('image-preview');
+    const previewCosm = document.getElementById('preview-cosm');
+    const previewSys = document.getElementById('preview-sys');
+    let activeRow = null;
+
+    function moveHandler(e) {
+    const div = previewDiv;
+    const divWidth = div.offsetWidth;
+    const divHeight = div.offsetHeight;
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
+    const viewWidth = window.innerWidth;
+    const viewHeight = window.innerHeight;
+
+    let offsetX = 15;
+    let offsetY = 15;
+
+    let left = mouseX + offsetX;
+    let top = mouseY + offsetY;
+
+    if (left + divWidth > viewWidth) {
+        left = mouseX - divWidth - offsetX;
+
+        if (left < 5) left = 5;
+    }
+
+    if (top + divHeight > viewHeight) {
+        top = mouseY - divHeight - offsetY;
+        if (top < 5) top = 5;
+    }
+
+    left = Math.min(Math.max(left, 5), viewWidth - divWidth - 5);
+    top = Math.min(Math.max(top, 5), viewHeight - divHeight - 5);
+
+    previewDiv.style.left = left + 'px';
+    previewDiv.style.top = top + 'px';
+}
+
+function showPreviewForRow(row, event) {
+
+    if (shiftPressed) return;
+    if (hideTimeout) {
+        clearTimeout(hideTimeout);
+        hideTimeout = null;
+    }
+    const id = row.getAttribute('data-id');
+    if (!id) return;
+    const cosmUrl = getCosmImagePath(id);
+    const sysUrl = getSysImagePath(id);
+    previewCosm.src = cosmUrl;
+    previewSys.src = sysUrl;
+    previewDiv.style.display = 'flex';
+    document.addEventListener('mousemove', moveHandler);
+    Promise.all([
+        new Promise(resolve => { previewCosm.onload = resolve; }),
+        new Promise(resolve => { previewSys.onload = resolve; })
+    ]).then(() => moveHandler(event));
+    moveHandler(event);
+}
+
+previewDiv.addEventListener('mouseenter', () => {
+    if (hideTimeout) {
+        clearTimeout(hideTimeout);
+        hideTimeout = null;
+    }
+});
+
+
+previewDiv.addEventListener('mouseleave', () => {
+
+    if (!activeRow) {
+        hidePreview();
+    } else {
+
+        hidePreview();
+    }
+});
+    function hidePreview(delay = 200) {
+    if (hideTimeout) clearTimeout(hideTimeout);
+    hideTimeout = setTimeout(() => {
+        previewDiv.style.display = 'none';
+        document.removeEventListener('mousemove', moveHandler);
+        hideTimeout = null;
+    }, delay);
+}
+    function hidePreviewImmediately() {
+    if (hideTimeout) {
+        clearTimeout(hideTimeout);
+        hideTimeout = null;
+    }
+    previewDiv.style.display = 'none';
+    document.removeEventListener('mousemove', moveHandler);
+}
+    const triggerCells = document.querySelectorAll('.preview-trigger');
+    triggerCells.forEach(cell => {
+        cell.addEventListener('mouseenter', (e) => {
+            const row = cell.closest('tr');
+            if (row && row.getAttribute('data-id')) {
+                activeRow = row;
+                showPreviewForRow(row, e);
+            }
+        });
+        cell.addEventListener('mouseleave', () => {
+        if (activeRow) {
+        hidePreview();  
+        activeRow = null;
+    }
+});
+    });
+
+    const showCombinedBtn = document.getElementById('show-combined-btn');
+    const clearBtn = document.getElementById('clear-checkboxes-btn');
+    const combinedCosm = document.getElementById('combined-cosm');
+    const combinedSys = document.getElementById('combined-sys');
+    const combineStatus = document.getElementById('combine-status');
+    const checkboxes = document.querySelectorAll('.row-checkbox');
+
+    function getSelectedIds() {
+        const selected = [];
+        checkboxes.forEach(cb => {
+            if (cb.checked) selected.push(parseInt(cb.value, 10));
+        });
+        return selected;
+    }
+
+    function getRunNameById(id) {
+        const row = document.querySelector(`tr[data-id="${id}"]`);
+        if (row) {
+            const runCell = row.querySelector('.run-name');
+            if (runCell) return runCell.innerText.trim();
+        }
+        return `ID ${id}`;
+    }
+    function displayCombinedImages() {
+    const selected = getSelectedIds();
+
+    if (selected.length === 0) {
+        alert ('🤔⚠️ 404 Not Found');
+        return;
+    }
+
+    if (selected.length === 1) {
+        alert('😅⚠️ just hover on the rows...');
+        return;
+    }
+    if (selected.length > 5) {
+        alert( '😾❌️ 少选点');
+        return;
+    }
+    // ---- 修改部分：若所选ID均为{1,2,3,4,5}的子集，统一使用 cosm_1_2_3_4_5.png ----
+    const allowedIds = [1,2,3,4,5];
+    const isAllInAllowed = selected.every(id => allowedIds.includes(id));
+    let cosmPath;
+    if (isAllInAllowed && selected.length >= 2) {
+        cosmPath = "figures/cosm_1_2_3_4_5.png";
+    } else {
+        cosmPath = getCombinedCosmPath(selected);
+    }
+    // -------------------------------------------------------------------------
+    const sysPath = getCombinedSysPath(selected);
+    const modalCosm = document.getElementById('modal-cosm');
+    const modalSys = document.getElementById('modal-sys');
+    const modal = document.getElementById('modal');
+    const runNames = selected.map(id => getRunNameById(id)).join(', ');
+    modalCosm.src = '';
+    modalSys.src = '';
+    modalCosm.alt = 'loading...';
+    modalSys.alt = 'loading...';
+    modalCosm.src = cosmPath;
+    modalSys.src = sysPath;
+    let loadedCount = 0;
+    function checkAllLoaded() {
+        loadedCount++;
+        if (loadedCount === 2) {
+            modal.style.display = 'flex';
+        }
+    }
+
+
+        function handleError(type, path) {
+        alert(`🙂❌ Not Prepared..${type}组合图（${runNames}）`);
+
+        modal.style.display = 'none';
+    }
+
+    modalCosm.onload = checkAllLoaded;
+    modalCosm.onerror = () => handleError('宇宙学', cosmPath);
+    modalSys.onload = checkAllLoaded;
+    modalSys.onerror = () => handleError('系统误差', sysPath);
+}
+
+const modal = document.getElementById('modal');
+const closeBtn = document.querySelector('.close');
+closeBtn.onclick = function() {
+    modal.style.display = 'none';
+}
+window.onclick = function(event) {
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+}
+function clearAllCheckboxes() {
+    checkboxes.forEach(cb => cb.checked = false);
+
+}
+
+    showCombinedBtn.addEventListener('click', displayCombinedImages);
+    clearBtn.addEventListener('click', clearAllCheckboxes);
+</script>
+</body>
+</html>
